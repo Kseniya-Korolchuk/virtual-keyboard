@@ -1,0 +1,160 @@
+@font-face {
+  font-family: "ARIAL", sans-serif;
+  src: url(../src/assets/fonts/ARIAL.TTF);
+  font-weight: normal;
+}
+html,
+body {
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.main {
+  width: 100%;
+  height: 100%;
+}
+
+.wrapper {
+  max-width: 1024px;
+  margin: auto;
+}
+
+.textarea {
+  width: 100%;
+  margin-top: 50px;
+  font-family: "ARIAL", sans-serif;
+  font-size: 20px;
+}
+
+.keyboard-wrapper {
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  row-gap: 5px;
+  width: 100%;
+}
+
+.row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  /*justify-content: space-between;*/
+  width: 100%;
+  gap: 5px;
+  /*border: 1px solid red;*/
+}
+
+.key {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  min-width: 60px;
+  height: 60px;
+  border: 1px solid transparent;
+  background-color: rgb(94, 94, 94);
+  border-radius: 5px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: thistle;
+  font-family: "ARIAL", sans-serif;
+  font-size: 20px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.key:hover {
+  background-color: rgb(134, 134, 134);
+}
+.key.active {
+  -webkit-box-shadow: 0px 0px 15px 8px rgba(255, 255, 255, 0.47) inset;
+          box-shadow: 0px 0px 15px 8px rgba(255, 255, 255, 0.47) inset;
+}
+
+.Backquote {
+  background-color: rgb(46, 46, 46);
+}
+
+.Backspase {
+  width: 100%;
+  background-color: rgb(46, 46, 46);
+}
+
+.Tab {
+  width: 75px;
+  background-color: rgb(46, 46, 46);
+}
+
+.Delete {
+  width: 75px;
+  background-color: rgb(46, 46, 46);
+}
+
+.CapsLock {
+  width: 100%;
+  background-color: rgb(46, 46, 46);
+}
+
+.Enter {
+  width: 100%;
+  background-color: rgb(46, 46, 46);
+}
+
+.ShiftLeft {
+  width: 100%;
+  background-color: rgb(46, 46, 46);
+}
+
+.ArrowUp {
+  background-color: rgb(46, 46, 46);
+}
+
+.ShiftRight {
+  background-color: rgb(46, 46, 46);
+}
+
+.ControlLeft {
+  max-width: 80px;
+  width: 100%;
+  background-color: rgb(46, 46, 46);
+}
+
+.MetaLeft {
+  background-color: rgb(46, 46, 46);
+}
+
+.AltLeft {
+  background-color: rgb(46, 46, 46);
+}
+
+.Space {
+  max-width: 455px;
+  width: 100%;
+}
+
+.AltRight {
+  background-color: rgb(46, 46, 46);
+}
+
+.ControlRight {
+  max-width: 80px;
+  width: 100%;
+  background-color: rgb(46, 46, 46);
+}
+
+.ArrowLeft {
+  background-color: rgb(46, 46, 46);
+}
+
+.ArrowDown {
+  background-color: rgb(46, 46, 46);
+}
+
+.ArrowRight {
+  background-color: rgb(46, 46, 46);
+}
+
+.hidden {
+  display: none;
+}
