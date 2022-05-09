@@ -157,6 +157,24 @@ const pressHandler = (lang, keysArray, event) => {
   if (event.code === 'Tab' && event.type === 'keydown') {
     textArea.setRangeText('\t', start, end, 'end');
   }
+  // MOOVING CURSOR
+  if (start > 0 && event.code === 'ArrowLeft' && event.type === 'keydown') {
+    textArea.selectionStart = start - 1;
+    textArea.selectionEnd = start - 1;
+  }
+  if (event.code === 'ArrowRight' && event.type === 'keydown') {
+    textArea.selectionStart = start + 1;
+    textArea.selectionEnd = start + 1;
+  }
+  // SELECTION WITH ARROWS
+  if (start > 0 && isShift && event.code === 'ArrowLeft' && event.type === 'keydown') {
+    textArea.selectionStart = start - 1;
+    textArea.selectionEnd = end;
+  }
+  if (isShift && event.code === 'ArrowRight' && event.type === 'keydown') {
+    textArea.selectionStart = start;
+    textArea.selectionEnd = end + 1;
+  }
 };
 
 export default pressHandler;
