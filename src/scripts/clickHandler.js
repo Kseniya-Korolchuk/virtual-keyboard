@@ -1,5 +1,6 @@
 const clickHandler = (lang, keysArray, event) => {
   const textArea = document.querySelector('textarea');
+  textArea.focus();
   const start = textArea.selectionStart;
   const end = textArea.selectionEnd;
   const capsLock = document.querySelector('.CapsLock');
@@ -190,6 +191,29 @@ const clickHandler = (lang, keysArray, event) => {
   // TAB
   if (event.currentTarget.classList.contains('Tab') && event.type === 'mousedown') {
     textArea.value += '\t';
+  }
+  // MOOVING CURSOR
+  if (start > 0 && event.currentTarget.classList.contains('ArrowLeft') && event.type === 'mousedown') {
+    textArea.selectionStart = start - 1;
+    textArea.selectionEnd = start - 1;
+  }
+  if (event.currentTarget.classList.contains('ArrowRight') && event.type === 'mousedown') {
+    textArea.selectionStart = start + 1;
+    textArea.selectionEnd = start + 1;
+  }
+  // SELECTION WITH ARROWS
+  if (start > 0
+    && isShift
+    && event.currentTarget.classList.contains('ArrowLeft')
+    && event.type === 'mousedown') {
+    textArea.selectionStart = start - 1;
+    textArea.selectionEnd = end;
+  }
+  if (isShift
+    && event.currentTarget.classList.contains('ArrowRight')
+    && event.type === 'mousedown') {
+    textArea.selectionStart = start;
+    textArea.selectionEnd = end + 1;
   }
 };
 
