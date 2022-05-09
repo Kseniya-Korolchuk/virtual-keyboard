@@ -1,9 +1,25 @@
-import { keysArray } from './initKeyboard.js';
-
-const pressHandler = (event) => {
+const pressHandler = (lang, keysArray, event) => {
   event.preventDefault();
   const textArea = document.querySelector('textarea');
+  textArea.focus();
+  const start = textArea.selectionStart;
+  const end = textArea.selectionEnd;
+  /* const start = textArea.selectionStart;
+  const end = textArea.selectionEnd; */
   const caps = document.querySelector('.CapsLock');
+  const shiftLeft = document.querySelector('.ShiftLeft');
+  const shiftRight = document.querySelector('.ShiftRight');
+  let isShift = false;
+  if (shiftLeft.classList.contains('active') || shiftRight.classList.contains('active')) isShift = true;
+  let isCaps = false;
+  if (caps.classList.contains('active')) isCaps = true;
+  if (event.ctrlKey && event.altKey && event.type === 'keydown') {
+    if (lang === 'en') {
+      localStorage.setItem('lang', 'ru');
+    } else {
+      localStorage.setItem('lang', 'en');
+    }
+  }
 
   keysArray.forEach((el) => {
     const arr = Array.from(el.children);
@@ -15,7 +31,7 @@ const pressHandler = (event) => {
     if (event.type === 'keyup' && !el.classList.contains('CapsLock')) {
       if (el.classList.contains(`${event.code}`)) el.classList.remove('active');
     }
-    if (event.code === 'CapsLock' && el.classList.contains('CapsLock') && event.type !== 'keyup') {
+    if (event.code === 'CapsLock' && el.classList.contains('CapsLock') && !isShift && event.type !== 'keyup') {
       el.classList.toggle('active');
     }
     if ((event.code === 'ShiftLeft')
@@ -28,10 +44,12 @@ const pressHandler = (event) => {
       && event.type !== 'keyup') {
       el.classList.add('active');
     }
+    // CAPS LOCK
     if (event.code === 'CapsLock' && event.type === 'keydown') {
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('lowerCase'))[0].classList.toggle('hidden');
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('caps'))[0].classList.toggle('hidden');
     }
+    // SHIFT
     if (event.shiftKey && event.type === 'keydown') {
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('shiftCaps'))[0].classList.add('hidden');
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('caps'))[0].classList.add('hidden');
@@ -46,25 +64,45 @@ const pressHandler = (event) => {
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('upperCase'))[0].classList.add('hidden');
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('lowerCase'))[0].classList.remove('hidden');
     }
-    if (caps.classList.contains('active') && event.shiftKey && event.type === 'keydown') {
+    // CAPS LOCK + SHIFT
+    if (isCaps && event.shiftKey && event.type === 'keydown') {
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('shiftCaps'))[0].classList.remove('hidden');
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('caps'))[0].classList.add('hidden');
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('lowerCase'))[0].classList.add('hidden');
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('upperCase'))[0].classList.add('hidden');
     }
-    if (caps.classList.contains('active') && event.code === 'ShiftLeft' && event.type === 'keyup') {
+    if (isCaps && event.code === 'ShiftLeft' && event.type === 'keyup') {
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('caps'))[0].classList.remove('hidden');
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('upperCase'))[0].classList.add('hidden');
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('lowerCase'))[0].classList.add('hidden');
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('shiftCaps'))[0].classList.add('hidden');
     }
-    if (caps.classList.contains('active') && event.code === 'ShiftRight' && event.type === 'keyup') {
+    if (isCaps && event.code === 'ShiftRight' && event.type === 'keyup') {
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('caps'))[0].classList.remove('hidden');
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('upperCase'))[0].classList.add('hidden');
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('lowerCase'))[0].classList.add('hidden');
       Array.from(arrayOfCurrent).filter((elem) => elem.classList.contains('shiftCaps'))[0].classList.add('hidden');
     }
-    if (!el.classList.contains('Backspase')
+    //  CTRL + ALT
+    if (event.ctrlKey && event.altKey && event.type === 'keydown') {
+      const currentLang = arr.filter((elem) => !elem.classList.contains('hidden'))[0];
+      const currentLangArr = Array.from(currentLang.children);
+      const hiddenLang = arr.filter((elem) => elem.classList.contains('hidden'))[0];
+      const hiddenLangArr = Array.from(hiddenLang.children);
+      currentLang.classList.add('hidden');
+      currentLangArr.forEach((elem) => elem.classList.add('hidden'));
+      hiddenLang.classList.remove('hidden');
+      hiddenLangArr.forEach((elem) => {
+        if (isCaps) {
+          if (elem.classList.contains('caps')) elem.classList.remove('hidden');
+        }
+        if (!isCaps) {
+          if (elem.classList.contains('lowerCase')) elem.classList.remove('hidden');
+        }
+      });
+    }
+    // PRINT
+    if (!el.classList.contains('Backspace')
     && !el.classList.contains('Tab')
     && !el.classList.contains('Delete')
     && !el.classList.contains('CapsLock')
@@ -83,9 +121,42 @@ const pressHandler = (event) => {
     && el.classList.contains(`${event.code}`)
     && event.type !== 'keyup') {
       const { textContent } = Array.from(arrayOfCurrent).filter((elem) => !elem.classList.contains('hidden'))[0];
-      textArea.value += textContent;
+      textArea.setRangeText(textContent, start, end, 'end');
     }
   });
+  // BACKSPACE
+  if (event.code === 'Backspace' && event.type === 'keydown') {
+    if (start > 0 && start === end) {
+      textArea.value = textArea.value.slice(0, start - 1) + textArea.value.slice(start);
+      textArea.selectionStart = start - 1;
+      textArea.selectionEnd = start - 1;
+    }
+    if (start !== end) {
+      textArea.value = textArea.value.slice(0, start) + textArea.value.slice(end);
+      textArea.selectionStart = start;
+      textArea.selectionEnd = start;
+    }
+  }
+  // DELETE
+  if (event.code === 'Delete' && event.type === 'keydown') {
+    if (start === end) {
+      textArea.value = textArea.value.slice(0, start) + textArea.value.slice(start + 1);
+    }
+    if (start !== end) {
+      textArea.value = textArea.value.slice(0, start)
+      + textArea.value.slice(end, textArea.value.length);
+    }
+    textArea.selectionStart = start;
+    textArea.selectionEnd = start;
+  }
+  // ENTER
+  if (event.code === 'Enter' && event.type === 'keydown') {
+    textArea.setRangeText('\n', start, end, 'end');
+  }
+  // TAB
+  if (event.code === 'Tab' && event.type === 'keydown') {
+    textArea.setRangeText('\t', start, end, 'end');
+  }
 };
 
 export default pressHandler;

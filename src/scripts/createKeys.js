@@ -1,23 +1,26 @@
 import keys from './keys.js';
 
-const createKeys = () => {
+const createKeys = (lang) => {
   const keyItemsArray = [];
 
   Object.entries(keys).forEach((key) => {
+    const keyItemEn = document.createElement('span');
+    const keyItemRu = document.createElement('span');
     const keyItem = document.createElement('div');
     keyItem.classList.add('key', `${key[0]}`);
 
-    const keyItemRu = document.createElement('span');
-    keyItemRu.classList.add('ru', 'hidden');
-
-    const keyItemEn = document.createElement('span');
-    keyItemEn.classList.add('en');
+    if (lang === 'en') {
+      keyItemRu.classList.add('ru', 'hidden');
+      keyItemEn.classList.add('en');
+    } else {
+      keyItemRu.classList.add('ru');
+      keyItemEn.classList.add('en', 'hidden');
+    }
 
     Object.entries(key[1]).forEach((el) => {
       Object.entries(el[1]).forEach((prop) => {
         const span = document.createElement('span');
-        // eslint-disable-next-line prefer-destructuring
-        span.innerHTML = prop[1];
+        span.innerHTML = `${prop[1]}`;
         if (prop[0] === 'lowerCase') {
           span.classList.add(`${prop[0]}`);
         } else {
@@ -31,7 +34,11 @@ const createKeys = () => {
       });
     });
 
-    keyItemRu.childNodes.forEach((el) => el.classList.add('hidden'));
+    if (lang === 'en') {
+      keyItemRu.childNodes.forEach((el) => el.classList.add('hidden'));
+    } else {
+      keyItemEn.childNodes.forEach((el) => el.classList.add('hidden'));
+    }
 
     keyItem.append(keyItemRu, keyItemEn);
     keyItemsArray.push(keyItem);

@@ -7,7 +7,7 @@ const keys = {
       caps: '`',
     },
     ru: {
-      lowercase: 'ё',
+      lowerCase: 'ё',
       upperCase: 'Ё',
       shiftCaps: 'ё',
       caps: 'Ё',
@@ -181,18 +181,18 @@ const keys = {
       caps: '=',
     },
   },
-  Backspase: {
+  Backspace: {
     en: {
       lowerCase: 'Backspace',
       upperCase: 'Backspace',
       shiftCaps: 'Backspace',
-      caps: 'BACKSPASE',
+      caps: 'BACKSPACE',
     },
     ru: {
       lowerCase: 'Backspace',
       upperCase: 'Backspace',
       shiftCaps: 'Backspace',
-      caps: 'BACKSPASE',
+      caps: 'BACKSPACE',
     },
   },
   Tab: {
@@ -545,7 +545,7 @@ const keys = {
       caps: 'Д',
     },
   },
-  semicolon: {
+  Semicolon: {
     en: {
       lowerCase: ';',
       upperCase: ':',

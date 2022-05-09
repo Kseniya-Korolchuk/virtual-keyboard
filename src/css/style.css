@@ -37,10 +37,8 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  /*justify-content: space-between;*/
   width: 100%;
   gap: 5px;
-  /*border: 1px solid red;*/
 }
 
 .key {
@@ -50,7 +48,7 @@ body {
   min-width: 60px;
   height: 60px;
   border: 1px solid transparent;
-  background-color: rgb(94, 94, 94);
+  background-color: rgb(71, 71, 71);
   border-radius: 5px;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
@@ -76,7 +74,7 @@ body {
   background-color: rgb(46, 46, 46);
 }
 
-.Backspase {
+.Backspace {
   width: 100%;
   background-color: rgb(46, 46, 46);
 }
@@ -157,4 +155,12 @@ body {
 
 .hidden {
   display: none;
+}
+
+.info {
+  margin: 20px auto;
+  font-family: "ARIAL", sans-serif;
+  font-size: 26px;
+  color: rgb(46, 46, 46);
+  text-align: center;
 }

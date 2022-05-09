@@ -1,9 +1,6 @@
-import createKeys from './createKeys.js';
 import clickHandler from './clickHandler.js';
 
-const keysArray = createKeys();
-
-const initKeyboard = () => {
+const initKeyboard = (lang, keysArray) => {
   const doc = document.querySelector('body');
 
   const wrapper = document.createElement('div');
@@ -13,9 +10,14 @@ const initKeyboard = () => {
   textArea.classList.add('textarea');
   textArea.setAttribute('cols', '30');
   textArea.setAttribute('rows', '10');
+  textArea.setAttribute('autofocus', 'autofocus');
 
   const keyboardWrapper = document.createElement('div');
   keyboardWrapper.classList.add('keyboard-wrapper');
+
+  const info = document.createElement('div');
+  info.classList.add('info');
+  info.innerHTML = 'Клавиатура создана для WIN OS <br> Для смены раскладки используйте левые CTRL + ALT';
 
   const row1 = document.createElement('div');
   const row2 = document.createElement('div');
@@ -28,12 +30,14 @@ const initKeyboard = () => {
   });
 
   for (let i = 0; i < keysArray.length; i += 1) {
-    keysArray[i].addEventListener('mousedown', clickHandler);
-    keysArray[i].addEventListener('mouseup', clickHandler);
+    keysArray[i].addEventListener('mousedown', clickHandler.bind(null, lang, keysArray));
+    keysArray[i].addEventListener('mouseup', clickHandler.bind(null, lang, keysArray));
     keysArray[i].addEventListener('mouseout', () => {
       if (!keysArray[i].classList.contains('CapsLock')
       && !keysArray[i].classList.contains('ShiftLeft')
-      && !keysArray[i].classList.contains('ShiftRight')) {
+      && !keysArray[i].classList.contains('ShiftRight')
+      && !keysArray[i].classList.contains('ControlLeft')
+      && !keysArray[i].classList.contains('AltLeft')) {
         keysArray[i].classList.remove('active');
       }
     });
@@ -48,8 +52,8 @@ const initKeyboard = () => {
   }
 
   doc.append(wrapper);
-  wrapper.append(textArea, keyboardWrapper);
+  wrapper.append(textArea, keyboardWrapper, info);
   keyboardWrapper.append(...rowArr);
 };
 
-export { keysArray, initKeyboard };
+export default initKeyboard;
